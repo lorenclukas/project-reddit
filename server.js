@@ -56,6 +56,33 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
+app.get("/posts", (req, res) => {
+  const selectRedditPostsQuery = `SELECT * FROM posts`;
+
+  conn.query(selectRedditPostsQuery, (err, rows) => {
+    if (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .send(
+          "Something happened while trying to retrieve the data from the database"
+        );
+    }
+
+    const posts = rows.map((row) => ({
+      id: row.id,
+      title: row.title,
+      url: row.url,
+      timestamp: row.timestamp,
+      score: row.score,
+    }));
+
+    const response = { posts };
+
+    return res.status(200).json(response);
+  });
+});
+
 app.post("/posts", (req, res) => {
   const { title, url } = req.body;
 
