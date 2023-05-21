@@ -3,6 +3,8 @@ const app = express();
 const PORT = 3000;
 const mysql = require("mysql");
 
+app.use(express.json());
+
 const conn = mysql.createConnection({
   password: "password",
   host: "localhost",
@@ -36,7 +38,7 @@ conn.connect((err) => {
           title VARCHAR(45) NOT NULL,
           url TEXT NOT NULL,
           timestamp INT NOT NULL,
-          score INT
+          score INT NULL
         )`;
 
       conn.query(createRedditDatabaseTable, (err) => {
@@ -52,6 +54,44 @@ conn.connect((err) => {
 
 app.get("/", (req, res) => {
   res.send("hello");
+});
+
+app.post("/posts", (req, res) => {
+  const { title, url } = req.body;
+
+  if (!title || !url) {
+    return res.status(400).send("Please provide title and url!");
+  }
+
+  const timestamp = Math.floor(Date.now() / 1000);
+  const score = 0;
+
+  const insertRedditPostQuery = `INSERT INTO posts (title, url, timestamp, score) VALUES (?, ?, ?, ?)`;
+
+  conn.query(
+    insertRedditPostQuery,
+    [title, url, timestamp, score],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        console.log(
+          "Something happened while trying to insert data into the database table"
+        );
+      }
+
+      const postId = result.insertId;
+
+      const response = {
+        id: postId,
+        title,
+        url,
+        timestamp,
+        score,
+      };
+
+      return res.status(200).json(response);
+    }
+  );
 });
 
 app.listen(PORT, () => {
