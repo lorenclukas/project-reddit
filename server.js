@@ -158,6 +158,45 @@ app.put("/posts/:id/upvote", (req, res) => {
   });
 });
 
+app.put("/posts/:id/downvote", (req, res) => {
+  const postId = req.params.id;
+
+  const downvoteRedditPostQuery = `UPDATE posts SET score = score - 1 WHERE id = ?`;
+
+  conn.query(downvoteRedditPostQuery, [postId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .send("Something happened while trying to downvote");
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send("Cannot find the post");
+    }
+
+    const getRedditPostQuery = `SELECT * FROM posts WHERE id = ?`;
+
+    conn.query(getRedditPostQuery, [postId], (err, rows) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Cannot retrieve the post");
+      }
+
+      const post = rows[0];
+
+      const response = {
+        id: post.id,
+        title: post.title,
+        url: post.url,
+        timestamp: post.timestamp,
+        score: post.score,
+      };
+      console.log("Post downvoted");
+      return res.status(200).json(response);
+    });
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
