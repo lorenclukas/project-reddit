@@ -197,6 +197,32 @@ app.put("/posts/:id/downvote", (req, res) => {
   });
 });
 
+app.delete("/posts/:id", (req, res) => {
+  const postId = req.params.id;
+
+  const deleteRedditPostQuery = `DELETE FROM posts WHERE id = ?`;
+
+  conn.query(deleteRedditPostQuery, [postId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("Unable to delete post");
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send("Cannot find the post");
+    }
+
+    const response = {
+      id: postId,
+      title: req.body.title,
+      url: req.body.url,
+      timestamp: req.body.timestamp,
+      score: req.body.score,
+    };
+    console.log("Post deleted");
+    return res.status(200).json(response);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
