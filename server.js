@@ -223,6 +223,33 @@ app.delete("/posts/:id", (req, res) => {
   });
 });
 
+app.put("/posts/:id", (req, res) => {
+  const postId = req.params.id;
+  const { title } = req.body;
+
+  const updateRedditPostQuery = `UPDATE posts SET title = ? WHERE id = ?`;
+
+  conn.query(updateRedditPostQuery, [title, postId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("Unable to update title");
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send("Cannot find the post");
+    }
+
+    const response = {
+      id: postId,
+      title,
+      url: req.body.url,
+      timestamp: req.body.timestamp,
+      score: req.body.score,
+    };
+    console.log("title updated");
+    return res.status(200).json(response);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
