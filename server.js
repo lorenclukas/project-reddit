@@ -121,6 +121,43 @@ app.post("/posts", (req, res) => {
   );
 });
 
+app.put("/posts/:id/upvote", (req, res) => {
+  const postId = req.params.id;
+
+  const upvoteRedditPostQuery = `UPDATE posts SET score = score + 1 WHERE id = ?`;
+
+  conn.query(upvoteRedditPostQuery, [postId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("Something happened while trying to upvote");
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send("Cannot find the post");
+    }
+
+    const getRedditPostQuery = `SELECT * FROM posts WHERE id = ?`;
+
+    conn.query(getRedditPostQuery, [postId], (err, rows) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Cannot retrieve the post");
+      }
+
+      const post = rows[0];
+
+      const response = {
+        id: post.id,
+        title: post.title,
+        url: post.url,
+        timestamp: post.timestamp,
+        score: post.score,
+      };
+      console.log("Post upvoted");
+      return res.status(200).json(response);
+    });
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
