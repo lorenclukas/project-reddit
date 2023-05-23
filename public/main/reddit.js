@@ -1,6 +1,11 @@
 const SERVER_URL = "http://localhost:3000";
 const posts = document.querySelector(".posts");
 
+const createNewPostButton = document.getElementById("new-post-button");
+createNewPostButton.addEventListener("click", () => {
+  window.location.href = "/new-post";
+});
+
 fetch(`${SERVER_URL}/posts`)
   .then((response) => response.json())
   .then((data) => {

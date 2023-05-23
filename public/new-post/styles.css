@@ -38,6 +38,7 @@ button {
   color: white;
   font-size: 20px;
   background-color: #4aa3df;
+  cursor: pointer;
 }
 
 label {

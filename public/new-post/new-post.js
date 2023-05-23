@@ -22,5 +22,7 @@ button.addEventListener("click", async (event) => {
     }
   } catch (err) {
     console.log(err);
+  } finally {
+    window.location.href = "/";
   }
 });
