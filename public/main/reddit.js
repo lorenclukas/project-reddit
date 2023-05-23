@@ -113,3 +113,18 @@ posts.addEventListener("click", (event) => {
       });
   }
 });
+
+posts.addEventListener("click", (event) => {
+  const target = event.target;
+  if (target.classList.contains("delete-button")) {
+    const article = target.closest(".post");
+    const postId = article.dataset.postId;
+
+    fetch(`${SERVER_URL}/posts/${postId}`, { method: "DELETE" })
+      .then((response) => response.json())
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally((window.location.href = "/"));
+  }
+});
