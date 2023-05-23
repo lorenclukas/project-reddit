@@ -27,11 +27,28 @@ fetch(`${SERVER_URL}/posts`)
       const buttonsDiv = document.createElement("div");
       const modifyButton = document.createElement("button");
       const deleteButton = document.createElement("button");
+      const time = document.createElement("p");
+
+      const timestamp = result.timestamp * 1000;
+      const timestampDate = new Date(timestamp);
+      const currentDate = new Date();
+
+      const timeDifference = currentDate - timestampDate;
+      const hoursAgo = Math.floor(timeDifference / 3600000);
+      const minutesAgo = Math.floor((timeDifference / (1000 * 60)) % 60);
+
+      let timeAgo;
+      if (hoursAgo >= 1) {
+        timeAgo = `Submitted ${hoursAgo} hours and ${minutesAgo} minutes ago.`;
+      } else {
+        timeAgo = `Submitted ${minutesAgo} minutes ago.`;
+      }
 
       score.innerText = result.score;
       title.innerText = result.title;
       url.innerText = result.url;
       url.href = result.url;
+      time.innerText = timeAgo;
       modifyButton.innerText = "Modify";
       deleteButton.innerText = "Delete";
 
@@ -63,6 +80,7 @@ fetch(`${SERVER_URL}/posts`)
       buttonsDiv.appendChild(deleteButton);
       contentDiv.appendChild(title);
       contentDiv.appendChild(url);
+      contentDiv.appendChild(time);
       contentDiv.appendChild(buttonsDiv);
 
       article.appendChild(scoreDiv);
