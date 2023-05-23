@@ -2,6 +2,7 @@ const SERVER_URL = "http://localhost:3000";
 const posts = document.querySelector(".posts");
 
 const createNewPostButton = document.getElementById("new-post-button");
+
 createNewPostButton.addEventListener("click", () => {
   window.location.href = "/new-post";
 });
@@ -32,6 +33,7 @@ fetch(`${SERVER_URL}/posts`)
       deleteButton.innerText = "Delete";
 
       article.classList.add("post");
+      article.dataset.postId = result.id;
       scoreDiv.classList.add("score");
       upvoteButton.classList.add("upvote-button");
       upvote.setAttribute("src", "images/upvote.png");
@@ -62,3 +64,43 @@ fetch(`${SERVER_URL}/posts`)
   .catch((error) => {
     console.log(error);
   });
+
+posts.addEventListener("click", (event) => {
+  const target = event.target;
+  if (target.classList.contains("upvote-button")) {
+    const article = target.closest(".post");
+    const score = article.querySelector(".score h3");
+    const upvoteImg = target.querySelector("img");
+    const postId = article.dataset.postId;
+
+    fetch(`${SERVER_URL}/posts/${postId}/upvote`, { method: "PUT" })
+      .then((response) => response.json())
+      .then((data) => {
+        score.innerText = data.score;
+        upvoteImg.src = "images/upvoted.png";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+});
+
+posts.addEventListener("click", (event) => {
+  const target = event.target;
+  if (target.classList.contains("downvote-button")) {
+    const article = target.closest(".post");
+    const score = article.querySelector(".score h3");
+    const downvoteImg = target.querySelector("img");
+    const postId = article.dataset.postId;
+
+    fetch(`${SERVER_URL}/posts/${postId}/downvote`, { method: "PUT" })
+      .then((response) => response.json())
+      .then((data) => {
+        score.innerText = data.score;
+        downvoteImg.src = "images/downvoted.png";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+});

@@ -61,7 +61,6 @@ body {
 
 .score {
   width: 15%;
-  justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,6 +86,9 @@ body {
 .score button {
   background: none;
   border: none;
+  width: 50px;
+  height: 50px;
+  padding: 1%;
 }
 
 .content-wrapper {
