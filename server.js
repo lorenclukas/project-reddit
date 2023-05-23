@@ -6,7 +6,9 @@ const cors = require("cors");
 
 app.use(express.json());
 app.use(cors());
-app.use("/", express.static("public"));
+app.use("/", express.static("public/main"));
+app.use("/new-post", express.static("public/new-post"));
+app.use("/images", express.static("public/images"));
 
 const conn = mysql.createConnection({
   password: "password",
@@ -55,8 +57,8 @@ conn.connect((err) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("hello");
+app.get("/new-post", (req, res) => {
+  res.sendFile(__dirname + "/public/new-post/index.html");
 });
 
 app.get("/posts", (req, res) => {

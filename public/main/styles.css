@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
 #banner {
-  background-image: url("images/banner.png");
+  background-image: url("/images/banner.png");
   background-size: cover;
   background-position: center;
   height: 300px;
