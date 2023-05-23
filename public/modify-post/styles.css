@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
+#banner {
+  background-image: url("/images/banner.png");
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modify-post-form {
+  margin-top: 2.5%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  flex: 70%;
+  justify-content: space-between;
+  padding: 2%;
+  margin-left: 1%;
+}
+
+input {
+  border: solid 2px #eaeaea;
+  background-color: #f5f5f5;
+  margin: auto;
+  width: 90%;
+  font-size: 20px;
+}
+button {
+  width: 50%;
+  margin: auto;
+  margin-top: 3%;
+  padding: 2%;
+  border: none;
+  color: white;
+  font-size: 20px;
+  background-color: #4aa3df;
+  cursor: pointer;
+}
+
+label {
+  font-family: "Lato", sans-serif;
+  margin: 2%;
+  font-size: 22px;
+}
+
+.sidebar {
+  flex: 30%;
+  margin-top: 2.5%;
+  margin-left: 1%;
+  margin-right: 1%;
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar button {
+  display: block;
+  margin: auto;
+  margin-bottom: 5%;
+  background-color: #4aa3df;
+  width: 100%;
+  border: none;
+  color: white;
+  height: 30px;
+  font-size: 18px;
+}
+
+.sidebar p {
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 5%;
+}
+
+.sidebar h4 {
+  background-color: #fbfbfb;
+  margin: 0;
+  padding: 5%;
+}
+
+#banner h1 {
+  font-family: "Lato", sans-serif;
+  color: white;
+  font-size: 80px;
+}
+
+body {
+  background-color: #eeeeee;
+  margin: 0;
+}
+
+.content-wrapper {
+  display: flex;
+}

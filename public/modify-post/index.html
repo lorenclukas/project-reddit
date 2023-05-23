@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reddit</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header id="banner">
+      <h1>Bloodborne</h1>
+    </header>
+    <div class="content-wrapper">
+      <form class="modify-post-form">
+        <label for="title">New title:</label>
+        <input type="text" name="title" required />
+
+        <label for="url">New URL:</label>
+        <input type="url" name="url" />
+        <button class="modify-post-button">MODIFY POST</button>
+      </form>
+      <div class="sidebar">
+        <article>
+          <h4><strong>ABOUT</strong> r/bloodborne</h4>
+          <p>
+            A community dedicated to Bloodborne, developed by FromSoft and
+            released for the PlayStation 4.
+          </p>
+        </article>
+      </div>
+    </div>
+    <script src="modify-post.js"></script>
+  </body>
+</html>

@@ -2,6 +2,8 @@ const SERVER_URL = "http://localhost:3000";
 const posts = document.querySelector(".posts");
 
 const createNewPostButton = document.getElementById("new-post-button");
+const modifyButtons = document.querySelectorAll(".modify-button");
+const deleteButton = document.querySelector(".delete-button");
 
 createNewPostButton.addEventListener("click", () => {
   window.location.href = "/new-post";
@@ -29,8 +31,15 @@ fetch(`${SERVER_URL}/posts`)
       score.innerText = result.score;
       title.innerText = result.title;
       url.innerText = result.url;
+      url.href = result.url;
       modifyButton.innerText = "Modify";
       deleteButton.innerText = "Delete";
+
+      modifyButton.addEventListener("click", (event) => {
+        const article = event.target.closest(".post");
+        const postId = article.dataset.postId;
+        window.location.href = `/modify-post?id=${postId}`;
+      });
 
       article.classList.add("post");
       article.dataset.postId = result.id;

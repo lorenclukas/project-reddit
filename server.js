@@ -9,6 +9,7 @@ app.use(cors());
 app.use("/", express.static("public/main"));
 app.use("/new-post", express.static("public/new-post"));
 app.use("/images", express.static("public/images"));
+app.use("/modify-post", express.static("public/modify-post"));
 
 const conn = mysql.createConnection({
   password: "password",
@@ -59,6 +60,40 @@ conn.connect((err) => {
 
 app.get("/new-post", (req, res) => {
   res.sendFile(__dirname + "/public/new-post/index.html");
+});
+
+app.get("/modify-post", (req, res) => {
+  const postId = req.query.id;
+  res.sendFile(__dirname + `/modify-post/index.html?id=${postId}`);
+});
+
+app.get("/posts/:id", (req, res) => {
+  const postId = req.params.id;
+
+  const selectRedditPostQuery = `SELECT * FROM posts WHERE id = ?`;
+
+  conn.query(selectRedditPostQuery, [postId], (err, rows) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("Cannot retrieve the post");
+    }
+
+    if (rows.length === 0) {
+      return res.status(404).send("Post not found");
+    }
+
+    const post = rows[0];
+
+    const response = {
+      id: post.id,
+      title: post.title,
+      url: post.url,
+      timestamp: post.timestamp,
+      score: post.score,
+    };
+
+    return res.status(200).json(response);
+  });
 });
 
 app.get("/posts", (req, res) => {
@@ -230,11 +265,11 @@ app.delete("/posts/:id", (req, res) => {
 
 app.put("/posts/:id", (req, res) => {
   const postId = req.params.id;
-  const { title } = req.body;
+  const { title, url } = req.body;
 
-  const updateRedditPostQuery = `UPDATE posts SET title = ? WHERE id = ?`;
+  const updateRedditPostQuery = `UPDATE posts SET title = ?, url = ? WHERE id = ?`;
 
-  conn.query(updateRedditPostQuery, [title, postId], (err, result) => {
+  conn.query(updateRedditPostQuery, [title, url, postId], (err, result) => {
     if (err) {
       console.log(err);
       return res.status(500).send("Unable to update title");
@@ -250,7 +285,7 @@ app.put("/posts/:id", (req, res) => {
       timestamp: req.body.timestamp,
       score: req.body.score,
     };
-    console.log("title updated");
+    console.log("post updated");
     return res.status(200).json(response);
   });
 });
