@@ -47,13 +47,3 @@ The app relies on the following dependencies:
 - `cors`: Middleware for enabling Cross-Origin Resource Sharing (CORS)
 
 Make sure to install these dependencies using `npm install`.
-
-## Dependencies
-
-The app relies on the following dependencies:
-
-- `express`: Web framework for Node.js
-- `mysql`: MySQL database driver for Node.js
-- `cors`: Middleware for enabling Cross-Origin Resource Sharing (CORS)
-
-Make sure to install these dependencies using `npm install`.
