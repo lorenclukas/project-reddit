@@ -25,17 +25,15 @@ window.addEventListener("DOMContentLoaded", () => {
     const newTitle = inputTitle.value;
     const newUrl = inputUrl.value;
 
-    const newPostData = {
-      title: newTitle,
-      url: newUrl,
-    };
-
     fetch(`${SERVER_URL}/posts/${postId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newPostData),
+      body: JSON.stringify({
+        title: newTitle,
+        url: newUrl,
+      }),
     })
       .then((response) => {
         response.json();
